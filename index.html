@@ -6,7 +6,7 @@
   
     <style>
 #map {
-    height: 400px;
+    height: 310px;
     width: 100%;
 }
     li.inline {
@@ -84,14 +84,15 @@ img {
             <li id="hatchback" class="list-group-item inline "><img src="car-of-hatchback-model.svg" class="imgg"></li>
             <li id="sedan" class="list-group-item inline"><img src="sedan-car-model.svg"class="imgg"></li>
         </ul>
-        
+        <div><a href="javascript:void(0)" class="btn btn-small" id="floating_button" >Confirm Destination?</a>
+        </div>
     </div>
     <div class="container">
-        <a href="javascript:void(0)" class="btn btn-raised btn-block btn-primary" id="ridenow" data-toggle="modal" data-target="#myModal">Ride Now</a>
-        <a href="javascript:void(0)" class="btn btn-raised btn-block btn-primary"id="ridelater">Ride Later</a>
+        <a class="btn btn-raised btn-block btn-primary" id="ridenow" data-toggle="modal" data-target="#myModal">Ride Now</a>
+        <a href="javascript:void(0)" class="btn btn-raised btn-block btn-default "id="ridelater" data-toggle="modal" datatarget="#myModal2">Ride Later</a>
     </div>
       
-      <!-- Modal -->
+      <!-- Modal 0 -->
     <div id="myModal" class="modal fade" role="dialog">
       <div class="modal-dialog">
 
@@ -107,14 +108,62 @@ img {
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+<!--            <button type="button" class="btn btn-primary"id="destination">Select Destination</button>-->
           </div>
         </div>
 
       </div>
     </div>
       
-      //script codes
+       <!-- Modal 1 -->
+    <div id="myModal1" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+
+    <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Booking Confirmed!</h4>
+          </div>
+          <div class="modal-body">
+              <p id="content">BC</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+      
+         <!-- Modal 2-->
+    <div id="myModal2" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+
+    <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Don't miss our best offers!</h4>
+          </div>
+          <div class="modal-body">
+            <p>Get comfortable in our cabs.<br> Starting @5/km : Base Price<br> Hurry up! Offer valid till the next day only!
+            </p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+      
     <script>
+        var srcdestn;
+        var finaldestn;
+        var taxi="SUV";
+        $("#floating_button").hide();
         var carid=0;
             function setCarText(text) {
                 $("#cartext").text("BOOK A " + text.toUpperCase());
@@ -128,6 +177,7 @@ img {
                  $("#hatchback").addClass("active");
                  carid=1;
                  setCarText("hatchback");
+                 taxi="Hatchback";
              })
              
              $("#suv").click(function(e){
@@ -138,6 +188,7 @@ img {
                  $("#suv").addClass("active");
                  carid=0;
                  setCarText("suv");
+                 taxi="SUV";
              })
         
         
@@ -149,6 +200,7 @@ img {
                 $("#sedan").addClass("active");
                 carid=2;
                  setCarText("sedan");
+                 taxi="Sedan";
              })
         
        
@@ -167,9 +219,8 @@ img {
         return false;
            
      })
-//     $("#ridenow").click(function(e){
-//         
-//     })
+     
+   
 
       function initMap() {
         var uluru = {lat: -25.363, lng: 131.044};
@@ -230,6 +281,29 @@ img {
              })
                  
              });
+          
+            var rdbtn=0;
+    function handleClick()
+    {
+        this.value = (this.value == 'Ride Now' ? 'Confirm Destination' : 'Ride Now');
+    }
+    document.getElementById('ridenow').onclick=handleClick;
+     $("#ridenow").click(function(){
+         //alert("Ads");
+         srcdestn=marker.getTitle();
+         console.log(srcdestn);
+         
+         $("#floating_button").show();
+
+     })
+     $("#floating_button").click(function(){
+         finaldestn=marker.getTitle();
+         
+         var htmltext = "<br><h5>Source : </h5>"+srcdestn+"<br><h5>Destination: </h5>"+finaldestn+"<br><h5>Taxi: </h5>"+taxi;
+         $("#content").html(htmltext);
+         $("#myModal1").modal({show: true});
+         alert("As");
+     })
           
           //Info window shows 
     var infoWindow = new google.maps.InfoWindow({map: map});
