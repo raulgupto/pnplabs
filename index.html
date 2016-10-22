@@ -34,13 +34,25 @@
                      infoWindow.setContent(locName);
                       marker.setTitle(locName);
                  }
-             })
-            
-              
+             })      
           };
           //Info window shows 
     var infoWindow = new google.maps.InfoWindow({map: map});
     var marker = new google.maps.Marker();
+    
+          //Onclick location details
+     google.maps.event.addListener(map,'click',function(event){
+              var lat=event.latLng.lat();
+              var lng=event.latLng.lng();
+              var position={
+                  lat:lat,
+                  lng:lng
+              };
+              marker.setPosition(position);
+              infoWindow.setPosition(position);
+              getLocation(position);
+              
+          });
           
           // Try HTML5 geolocation.
      if (navigator.geolocation) {
