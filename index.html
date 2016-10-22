@@ -86,6 +86,34 @@ img {
         </ul>
         
     </div>
+    <div class="container">
+        <a href="javascript:void(0)" class="btn btn-raised btn-block btn-primary" id="ridenow" data-toggle="modal" data-target="#myModal">Ride Now</a>
+        <a href="javascript:void(0)" class="btn btn-raised btn-block btn-primary"id="ridelater">Ride Later</a>
+    </div>
+      
+      <!-- Modal -->
+    <div id="myModal" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+
+    <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Booking Sucessful</h4>
+          </div>
+          <div class="modal-body">
+            <p>Get comfortable in our cabs.<br> Starting @5/km : Base Price<br> Thank You for choosing us!
+            </p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+      
+      //script codes
     <script>
         var carid=0;
             function setCarText(text) {
@@ -101,9 +129,6 @@ img {
                  carid=1;
                  setCarText("hatchback");
              })
-        
-         
-            
              
              $("#suv").click(function(e){
                  if(carid==1){
@@ -142,6 +167,9 @@ img {
         return false;
            
      })
+//     $("#ridenow").click(function(e){
+//         
+//     })
 
       function initMap() {
         var uluru = {lat: -25.363, lng: 131.044};
