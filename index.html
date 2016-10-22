@@ -22,6 +22,9 @@ img {
     display: block;
     margin: auto;
 }
+.imgg{
+        border-radius: 50%;    
+        }
         .search-form {
             vertical-align: middle;
             width: 40em;
@@ -77,9 +80,9 @@ img {
     </div>
     <div class="container center myclas">
         <ul class="list-group list-inline">
-            <li id="suv" class="list-group-item inline active"><img src="car-suv.svg"></li>
-            <li id="hatchback" class="list-group-item inline "><img src="car-of-hatchback-model.svg"></li>
-            <li id="sedan" class="list-group-item inline"><img src="sedan-car-model.svg"></li>
+            <li id="suv" class="list-group-item inline active"><img src="car-suv.svg" class="imgg"></li>
+            <li id="hatchback" class="list-group-item inline "><img src="car-of-hatchback-model.svg" class="imgg"></li>
+            <li id="sedan" class="list-group-item inline"><img src="sedan-car-model.svg"class="imgg"></li>
         </ul>
         
     </div>
@@ -100,6 +103,8 @@ img {
              })
         
          
+            
+             
              $("#suv").click(function(e){
                  if(carid==1){
                 $("#hatchback").removeClass("active");}
@@ -144,6 +149,9 @@ img {
           zoom: 6,
           center: uluru
         });
+          
+        //click event handler for go button!
+          
           function getLocation(pos){
             var lat=pos.lat;
             var lng=pos.lng;
@@ -162,6 +170,39 @@ img {
                  }
              })
           };
+           $("#search-button").click(function(e){
+                 var searchText=$("#search").val();
+                 console.log(searchText);
+                 var arr=searchText.split("");
+                 for(var i=0;i<arr.length;i++){
+                     if(arr[i]==" "){
+                         arr[i]="+";
+                     }
+                 }
+                 searchText=arr.join("");
+                 var url="https://maps.googleapis.com/maps/api/geocode/json?address="+searchText+"&key=AIzaSyD4wI_UlnXo6zhvbw9KMtRUIPdZXqZ79jY";
+                 //console.log(url);
+                 $.ajax({
+                 url:url,
+                 success:function(data){
+                    // console.log(data);
+                     var locName=data["results"][0]["geometry"]["location"];
+                     console.log(locName);
+                     var pos={
+                         lat:locName.lat,
+                         lng:locName.lng
+                     }
+                    // infoWindow.setContent(locName);
+                     infoWindow.setPosition(pos);
+                     marker.setPosition(pos);
+                     getLocation(pos);
+                     map.setCenter(pos);
+                  
+                 }
+             })
+                 
+             });
+          
           //Info window shows 
     var infoWindow = new google.maps.InfoWindow({map: map});
     var marker = new google.maps.Marker();
