@@ -1,25 +1,147 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <style>
-       #map {
-        height: 400px;
-        width: 100%;
-       }
-    </style>
-    <style src="in/bootstrap.min.css"></style>
+    <link rel="stylesheet" href="in/bootstrap.min.css">
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  
+    <style>
+#map {
+    height: 400px;
+    width: 100%;
+}
+    li.inline {
+    width: 32%;
+}
+        .myclas {
+            max-width: 600px;
+        }
+        .active{
+            background: grey;
+        }
+img {
+    display: block;
+    margin: auto;
+}
+        .search-form {
+            vertical-align: middle;
+            width: 40em;
+        }
+        
+        .form-group {
+            margin-bottom: 0;
+        }
+        
+        .container-fluid {
+            display: flex;
+            align-items: center;
+        }
+    </style>
   </head>
   <body>
+
+    <nav class="navbar navbar-default">
+      <div class="container">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">
+            PnP Cabs
+          </a>
+        </div>
+        <div class="navbar-collapse collapse navbar-responsive-collapse">
+            <form class="navbar-form navbar-right" id="search-form">
+              <div class="form-group input-group">
+                <input id="search" type="text" class="form-control col-sm-8" placeholder="Search" aria-describedby="basic-addon2">
+                <span class="input-group-btn">
+                  <button id="search-button" class="btn btn-default" type="button">Go!</button>
+                </span>
+              </div>
+            </form>
+            <ul class="nav navbar-nav">
+            <li><a href="javascript:void(0)">Profile</a></li>
+            <li><a href="javascript:void(0)">About</a></li>
+            </ul>
+        </div>
+
+      </div>
+    </nav>
+
     <div class="container">
-    <h3>PnpCabs</h3>
     <div id="map"></div>
     </div>
+    <div class="container center">
+        <p id="cartext">Book a Cab</p>
+    </div>
+    <div class="container center myclas">
+        <ul class="list-group list-inline">
+            <li id="suv" class="list-group-item inline active"><img src="car-suv.svg"></li>
+            <li id="hatchback" class="list-group-item inline "><img src="car-of-hatchback-model.svg"></li>
+            <li id="sedan" class="list-group-item inline"><img src="sedan-car-model.svg"></li>
+        </ul>
+        
+    </div>
     <script>
+        var carid=0;
+            function setCarText(text) {
+                $("#cartext").text("BOOK A " + text.toUpperCase());
+            }
+        
+             $("#hatchback").click(function(e){
+                 if(carid==0){
+                   $("#suv").removeClass("active");  
+                 }else
+                 $("#sedan").removeClass("active");
+                 $("#hatchback").addClass("active");
+                 carid=1;
+                 setCarText("hatchback");
+             })
+        
+         
+             $("#suv").click(function(e){
+                 if(carid==1){
+                $("#hatchback").removeClass("active");}
+                 else
+                 $("#sedan").removeClass("active");
+                 $("#suv").addClass("active");
+                 carid=0;
+                 setCarText("suv");
+             })
+        
+        
+             $("#sedan").click(function(e){
+                  if(carid==0){
+                $("#suv").removeClass("active");}
+                 else
+                $("#hatchback").removeClass("active");
+                $("#sedan").addClass("active");
+                carid=2;
+                 setCarText("sedan");
+             })
+        
+       
+        
+     $('input[type="text"]').on("blur", function(e) {
+      console.log(e);
+     })
+     $("#search-form").submit(function(e) {
+      e.preventDefault();
+      console.log(document.getElementById('search').value);
+      return false;
+     })
+
+     $("#search-button").click(function(e) {
+       console.log(document.getElementById('search').value);
+        return false;
+           
+     })
+
       function initMap() {
         var uluru = {lat: -25.363, lng: 131.044};
         var map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 4,
+          zoom: 6,
           center: uluru
         });
           function getLocation(pos){
@@ -36,8 +158,9 @@
                      console.log(locName);
                      infoWindow.setContent(locName);
                       marker.setTitle(locName);
+                     document.getElementById('search').value = locName;
                  }
-             })      
+             })
           };
           //Info window shows 
     var infoWindow = new google.maps.InfoWindow({map: map});
@@ -56,6 +179,20 @@
               getLocation(position);
               
           });
+          
+          google.maps.event.addListener(marker, 'dragend', function(event) {
+              var lat=event.latLng.lat();
+              var lng=event.latLng.lng();
+              var position={
+                  lat:lat,
+                  lng:lng
+              };
+              console.log(event);
+              marker.setPosition(position);
+              infoWindow.setPosition(position);
+              getLocation(position);
+              map.setCenter(position);
+          })
           
           // Try HTML5 geolocation.
      if (navigator.geolocation) {
@@ -96,6 +233,6 @@
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD4wI_UlnXo6zhvbw9KMtRUIPdZXqZ79jY&callback=initMap">
        
     </script>
-    
+    <script src="/in/bootstrap.min.js"></script>
   </body>
 </html>
