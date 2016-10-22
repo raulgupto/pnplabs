@@ -162,6 +162,7 @@ img {
     <script>
         var srcdestn;
         var finaldestn;
+        var time;
         var taxi="SUV";
         $("#floating_button").hide();
         var carid=0;
@@ -292,6 +293,7 @@ img {
          //alert("Ads");
          srcdestn=marker.getTitle();
          console.log(srcdestn);
+         time=new Date();
          
          $("#floating_button").show();
 
@@ -299,10 +301,10 @@ img {
      $("#floating_button").click(function(){
          finaldestn=marker.getTitle();
          
-         var htmltext = "<br><h5>Source : </h5>"+srcdestn+"<br><h5>Destination: </h5>"+finaldestn+"<br><h5>Taxi: </h5>"+taxi;
+         var htmltext = "<br><h5>Source : </h5>"+srcdestn+"<br><h5>Destination: </h5>"+finaldestn+"<br><h5>Taxi: </h5>"+taxi+"<br><h5>Time: </h5>"+time;
          $("#content").html(htmltext);
          $("#myModal1").modal({show: true});
-         alert("As");
+         //alert("As");
      })
           
           //Info window shows 
