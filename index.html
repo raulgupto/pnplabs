@@ -123,7 +123,7 @@ img {
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Booking Confirmed!</h4>
+                <h4 class="modal-title">Your Booking Confirmed till Now!</h4>
           </div>
           <div class="modal-body">
               <p id="content">BC</p>
@@ -158,10 +158,11 @@ img {
 
       </div>
     </div>
-      
+<!--      scripts below-->
     <script>
         var srcdestn;
         var finaldestn;
+        var array=[];
         var time;
         var taxi="SUV";
         $("#floating_button").hide();
@@ -300,10 +301,23 @@ img {
      })
      $("#floating_button").click(function(){
          finaldestn=marker.getTitle();
-         
-         var htmltext = "<br><h5>Source : </h5>"+srcdestn+"<br><h5>Destination: </h5>"+finaldestn+"<br><h5>Taxi: </h5>"+taxi+"<br><h5>Time: </h5>"+time;
+         var temp={
+             source:srcdestn,
+             dest:finaldestn,
+             time:time,
+             taxi:taxi
+         }
+         array.push(temp);
+         console.log(array);
+         var htmltext = "" ;
+         for(var i = 0; i < array.length ; i++)
+             {
+                 var temp = "<br><h5>Source : </h5>"+array[i]["source"]+"<br><h5>Destination: </h5>"+array[i]["dest"]+"<br><h5>Taxi: </h5>"+array[i]["taxi"]+"<br><h5>Time: </h5>"+array[i]["time"];
+                 htmltext = htmltext + temp ;
+             }
          $("#content").html(htmltext);
          $("#myModal1").modal({show: true});
+         $("floating_button").hide();
          //alert("As");
      })
           
